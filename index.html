@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fuori Scala Feelings - QR Codes</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<style>
+  body {
+    font-family: sans-serif;
+    background: #fafafa;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 20px;
+  }
+  .qr-block {
+    text-align: center;
+    width: 160px;
+  }
+  .qr-label {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  canvas {
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  }
+</style>
+</head>
+<body>
+
+<div id="container"></div>
+
+<script>
+  const emotions = [
+    {name: 'Joy', color: '#FFD700'},
+    {name: 'Sadness', color: '#4682B4'},
+    {name: 'Anger', color: '#DC143C'},
+    {name: 'Fear', color: '#000000'},
+    {name: 'Calm', color: '#3CB371'},
+    {name: 'Love', color: '#FF69B4'}
+  ];
+
+  const baseUrl = 'https://fuoriscala.github.io/fuori-scala-feelings/mood.html';
+
+  const container = document.getElementById('container');
+
+  emotions.forEach(emotion => {
+    const url = `${baseUrl}?emotion=${encodeURIComponent(emotion.name)}&material=jute`;
+
+    const div = document.createElement('div');
+    div.className = 'qr-block';
+
+    const label = document.createElement('div');
+    label.className = 'qr-label';
+    label.textContent = emotion.name;
+
+    const canvas = document.createElement('canvas');
+
+    new QRious({
+      element: canvas,
+      value: url,
+      size: 160,
+      background: 'white',
+      foreground: emotion.color
+    });
+
+    div.appendChild(canvas);
+    div.appendChild(label);
+    container.appendChild(div);
+  });
+</script>
+
+</body>
+</html>
